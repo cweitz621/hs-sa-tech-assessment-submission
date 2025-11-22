@@ -251,7 +251,6 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 
 **How AI Helped:**
 - **Rapid Development**: Cursor AI significantly accelerated development by generating boilerplate code, API integration patterns, and common functionality
-- **Learning and Understanding**: AI helped me quickly understand HubSpot API patterns, Express.js best practices, and JavaScript async/await patterns without extensive documentation reading
 - **Debugging Support**: When encountering errors (like line item association issues, API 404s, or parsing problems), Cursor helped identify root causes and suggest fixes
 - **Code Refactoring**: AI assisted in restructuring code (separating CSS/JS files) and improving code organization
 - **Documentation Generation**: Gemini and Cursor helped generate comprehensive documentation, ERD diagrams, and code explanations
@@ -309,7 +308,7 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 - Quantity: Number of thermostats purchased
 - Amount: Total value
 
-#### 2. Default Pipeline (Trial Pipeline)
+#### 2. Trial Pipeline
 **Purpose**: Track trial signups and conversions
 
 **Stages:**
@@ -349,13 +348,6 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
    - Linked to trials via `trial_id`
    - Status tracked (Active/Cancelled)
    - Dates tracked (active_date, cancellation_date)
-
-### Associations
-
-- **Contact ↔ Deal**: Many-to-many (HUBSPOT_DEFINED, type 3)
-- **Deal ↔ Line Item**: Many-to-many (HUBSPOT_DEFINED, type 20)
-- **Line Item ↔ Product**: Many-to-one (via `hs_product_id` property)
-- **Subscription ↔ Trial**: One-to-one (via `trial_id` property)
 
 ---
 
@@ -398,28 +390,6 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 Instead of: "Customer has active trial"
 AI provides: "High likelihood to upgrade (85%) - Customer purchased 2 thermostats and has active trial. Use HubSpot AI Email Assistant to draft personalized upgrade email highlighting multi-device benefits."
 
-### When Would You Use AI vs Traditional Rules/Logic?
-
-**Use AI When:**
-- ✅ Analyzing complex, multi-dimensional customer profiles
-- ✅ Need nuanced insights that consider context
-- ✅ Patterns are not easily codified into if/then rules
-- ✅ Recommendations need to be personalized and contextual
-- ✅ You want explanations/justifications for insights
-- ✅ Data patterns change frequently (AI adapts)
-
-**Use Traditional Rules/Logic When:**
-- ✅ Simple, binary conditions (e.g., "if subscription expires in 3 days")
-- ✅ High-frequency operations where latency matters
-- ✅ 100% consistency and predictability required
-- ✅ Cost is a concern (AI API calls have costs)
-- ✅ Rules are well-defined and stable
-- ✅ Compliance/audit requirements need deterministic logic
-
-**Hybrid Approach (Recommended):**
-- Use rules for simple, high-frequency triggers
-- Use AI for complex analysis and recommendations
-- Combine both: Rules trigger workflows, AI provides context for personalization
 
 ---
 
@@ -461,22 +431,16 @@ AI provides: "High likelihood to upgrade (85%) - Customer purchased 2 thermostat
    - Customer purchases thermostats
    - Customer signs up for trial
 
-2. **Subscription Management**: Assumed Breezy has a subscription management system that:
-   - Creates/updates subscriptions in HubSpot custom object
-   - Links subscriptions to trials via `trial_id`
-   - Tracks subscription status and dates
+2. **Subscription Management**: Assumed Breezy wants to track subscription status and information in HubSpot separately from deals, which represent sales opportunities. The subscription custom object:
+   - Tracks the actual ongoing service relationship (separate from trial deals)
+   - Tracks subscription status (Active/Cancelled) and important dates (active_date, cancellation_date)
 
 3. **Admin Panel Usage**: Assumed Breezy's team would use this admin panel for:
    - Manual data entry (for testing/demo purposes)
    - Viewing unified customer data
    - Getting AI insights for decision-making
 
-4. **Pricing Structure**:
-   - Thermostat: $299 per unit
-   - Premium subscription: Variable pricing (monthly/annual)
-   - Trial value: Optional (can be $0)
-
-5. **Business Logic**:
+4. **Business Logic**:
    - Customers can purchase multiple thermostats
    - Customers can have multiple trials
    - Trials can convert to subscriptions
@@ -484,46 +448,28 @@ AI provides: "High likelihood to upgrade (85%) - Customer purchased 2 thermostat
 
 ### What Would You Improve With More Time?
 
-1. **Error Handling**:
+1. **Reporting and Revenue Tracking Structure**:
+   - Better understanding of Breezy's specific reporting needs and requirements
+   - Establish a more set-in-stone data structure to handle reporting needs, particularly for recurring revenue tracking
+   - Design subscription and revenue data models that support accurate MRR/ARR calculations and forecasting
+   - Implement proper revenue recognition tracking aligned with their accounting needs
+
+2. **Error Handling**:
    - More granular error messages
-   - Retry logic for transient API failures
    - Better validation before API calls
 
-2. **Performance**:
+3. **Performance**:
    - Batch API calls where possible
    - Implement caching for pipeline stages
-   - Lazy loading for large contact lists
-
-3. **User Experience**:
-   - Loading skeletons instead of "Loading..." text
-   - Optimistic UI updates
-   - Toast notifications for actions
-   - Pagination for large datasets
 
 4. **Testing**:
    - Unit tests for API endpoints
    - Integration tests for HubSpot API calls
-   - Frontend component tests
-   - E2E tests for critical flows
 
 5. **Security**:
    - Input sanitization
    - Rate limiting
-   - API key rotation
-   - Environment-specific configurations
 
-6. **Documentation**:
-   - API documentation (Swagger/OpenAPI)
-   - Code comments
-   - Architecture diagrams
-   - Deployment guides
-
-7. **Features**:
-   - Bulk contact import
-   - Contact search/filtering
-   - Export functionality
-   - Historical data tracking
-   - Webhook support for real-time updates
 
 ### What Would You Ask the Client Before Building Production Version?
 
@@ -536,30 +482,20 @@ AI provides: "High likelihood to upgrade (85%) - Customer purchased 2 thermostat
    - What additional contact properties are needed?
    - Are there other custom objects required?
    - What reporting/analytics are needed?
+   - Do we need to track recurring revenue in HubSpot?
    - How long should historical data be retained?
 
 3. **Business Rules**:
-   - What defines a "qualified" trial?
    - When should deals be automatically updated?
    - What workflows should be automated?
    - Are there compliance requirements (GDPR, etc.)?
 
-4. **User Experience**:
-   - Who will use the admin panel? (technical/non-technical)
-   - What's the primary use case? (data entry, reporting, analysis)
-   - Are there mobile users?
-   - What's the expected user count?
 
 5. **Technical Constraints**:
    - What's the hosting environment? (cloud, on-premise)
    - Are there security/compliance requirements?
    - What's the budget for API calls (HubSpot, AI)?
    - Are there preferred technologies/frameworks?
-
-6. **Success Metrics**:
-   - How will success be measured?
-   - What KPIs matter most?
-   - What's the expected ROI?
 
 7. **Timeline & Resources**:
    - What's the launch timeline?
@@ -594,36 +530,3 @@ hs-solution-architect-tech-assignment/
         └── app.js        # Application logic
 ```
 
-### Adding Images to README
-
-To include images in this README, place them in the `assets/images/` directory and reference them using markdown syntax:
-
-**Example:**
-```markdown
-![Alt text](assets/images/screenshot.png)
-![Admin Panel Overview](assets/images/admin-panel.png)
-```
-
-**For images with captions or links:**
-```markdown
-[![Click to view larger](assets/images/diagram.png)](assets/images/diagram.png)
-```
-
-**Supported image formats:**
-- PNG (recommended for screenshots)
-- JPG/JPEG (for photos)
-- GIF (for animated images)
-- SVG (for diagrams)
-
-**Best practices:**
-- Use descriptive filenames (e.g., `admin-panel-overview.png` instead of `image1.png`)
-- Keep file sizes reasonable for GitHub viewing
-- Use alt text that describes the image content
-
-### Troubleshooting
-
-See the original README for common troubleshooting steps, or check the server console logs for detailed error messages.
-
----
-
-**Good luck with your assessment!**
