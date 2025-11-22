@@ -182,21 +182,17 @@ http://localhost:3001
 This proof-of-concept demonstrates an integration between Breezy's smart home platform and HubSpot CRM. The application simulates an admin panel that Breezy's team would use to:
 
 1. **Sync Customer Data**: Automatically create HubSpot contacts when customers purchase thermostats or sign up for trials
-2. **Track Hardware Purchases**: Create deals in HubSpot's "Order Pipeline" with associated line items for thermostat purchases
+2. **Track Hardware Purchases**: Create deals in HubSpot's "Hardware Pipeline" with associated line items for thermostat purchases
 3. **Manage Trial Signups**: Create trial deals with line items that include billing frequency and pricing information
 4. **Monitor Subscriptions**: Display subscription status from HubSpot's custom "Breezy Subscriptions" object
 5. **AI-Powered Insights**: Generate customer health insights using Google Gemini AI, with recommendations for HubSpot AI tools
 
-**Important Note**: Breezy Subscription records can be created in two ways:
-- **HubSpot Workflows** (demonstrated in this POC): When a trial deal moves to "Converted" stage, a HubSpot workflow creates the subscription record. This approach helps manage API call limits since workflows run server-side in HubSpot.
-- **Direct API Calls**: Alternatively, subscriptions can be created directly via API calls from your application, giving more control but using more API quota.
 
-This POC demonstrates the workflow approach to show how you can reduce API call volume. In production, choose the approach that best fits your needs, rate limits, and control requirements. See Setup Instructions section 6 for both options.
 
 ### Key Features
 
 - **Contact Management**: Create and view contacts with job title and company information
-- **Deal Tracking**: Separate pipelines for hardware purchases (Order Pipeline) and trials (Default Pipeline)
+- **Deal Tracking**: Separate pipelines for hardware purchases (Hardware Pipeline) and trials (Default Pipeline)
 - **Line Item Integration**: Automatic creation of products and line items for thermostats and premium subscriptions
 - **Custom Object Integration**: Read subscription data from HubSpot custom objects
 - **Dynamic Pipeline Loading**: Automatically fetch and display current deal stages from HubSpot
@@ -210,6 +206,7 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
 - **API Integration**: HubSpot CRM API v3
 - **AI Integration**: Google Gemini 2.0 Flash API
 - **HTTP Client**: Axios
+- **Documentation Tools**: Mermaid (for ERD diagrams), Google Gemini (for diagram generation)
 
 ---
 
@@ -218,6 +215,7 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
 ### Which AI Tools Did You Use?
 
 - **Google Gemini 2.0 Flash (Experimental)**: Used for generating customer health insights
+- **Google Gemini**: Used in conjunction with Mermaid to generate the Entity Relationship Diagram (ERD) for the HubSpot data architecture
 
 ### What Tasks Did You Use AI For?
 
@@ -232,6 +230,11 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
    - Connecting insights to tactical execution methods
    - Providing context-aware recommendations based on customer profile
 
+3. **Documentation and Diagram Generation**:
+   - Used Google Gemini to generate Mermaid diagram code for the Entity Relationship Diagram (ERD)
+   - Gemini helped structure the complex relationships between HubSpot objects (Contacts, Deals, Line Items, Products, Custom Objects)
+   - Mermaid rendered the diagram into a visual representation of the data architecture
+
 ### What Did You Learn? What Was Challenging?
 
 **What I Learned:**
@@ -239,6 +242,7 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
 - AI models need clear instructions about output format (JSON structure)
 - Context matters - providing comprehensive customer data leads to better insights
 - AI can effectively bridge the gap between data analysis and actionable recommendations
+- **AI for Documentation**: Using Gemini to generate Mermaid diagram code demonstrated how AI can accelerate documentation tasks, helping structure complex relationships and generate visual representations of system architecture
 
 **Challenges:**
 - **Model Availability**: Initially tried `gemini-2.0-flash-exp` which wasn't available on free tier, had to switch to `gemini-1.5-flash` initially
@@ -279,9 +283,11 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
 
 ![HubSpot Data Architecture ERD](assets/images/SA_assessment_ADVANCED_ERD.png)
 
+*This ERD was created using Google Gemini to generate Mermaid diagram code, which was then rendered into the visual diagram shown above. Gemini helped structure the complex relationships between HubSpot objects including Contacts, Deals (Trials and Hardware Purchases), Line Items, Products, and the Breezy Subscriptions custom object.*
+
 ### Deal Pipeline Architecture
 
-#### 1. Order Pipeline (ID: `829155852`)
+#### 1. Hardware Pipeline (ID: `829155852`)
 **Purpose**: Track hardware (thermostat) purchases
 
 **Stages:**
@@ -313,7 +319,7 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
 - `dealname`: "Breezy Premium - 30 Day Trial" (default)
 - `amount`: Trial value (optional)
 - `dealstage`: Selected from dynamic pipeline stages
-- `pipeline`: Default pipeline (not Order Pipeline)
+- `pipeline`: Default pipeline (not Hardware Pipeline)
 
 **Associated Line Items:**
 - Product: "Breezy Premium"
@@ -326,7 +332,7 @@ This POC demonstrates the workflow approach to show how you can reduce API call 
 
 1. **Contact Creation**:
    - Contact created in HubSpot
-   - If thermostat quantity provided → Deal created in Order Pipeline
+   - If thermostat quantity provided → Deal created in Hardware Pipeline
    - Line items created and associated
 
 2. **Trial Creation**:
