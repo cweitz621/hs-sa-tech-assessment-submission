@@ -213,9 +213,10 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 
 ### Which AI Tools Did You Use?
 
+- **Cursor AI**: Used as the primary AI coding assistant throughout the development process
 - **Google Gemini 2.0 Flash (Experimental)**: Used for generating customer health insights
 - **Google Gemini**: Used in conjunction with Mermaid to generate the Entity Relationship Diagram (ERD) for the HubSpot data architecture
-- **Cursor AI**: Used as the primary AI coding assistant throughout the development process
+
 
 ### What Tasks Did You Use AI For?
 
@@ -237,12 +238,6 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
    - Used Cursor AI to help write and structure the README documentation
    - Generated code examples and explanations for documentation
 
-3. **Problem Solving and Learning**:
-   - Used Cursor AI to understand HubSpot API patterns and best practices
-   - Got help troubleshooting integration challenges (custom object queries, deal associations, line item creation)
-   - Learned about Express.js patterns, error handling, and async/await best practices
-   - Received guidance on UI/UX improvements and responsive design patterns
-
 ### What Did You Learn? What Was Challenging?
 
 **What I Learned:**
@@ -251,13 +246,6 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 - Context matters - providing comprehensive customer data leads to better insights
 - AI can effectively bridge the gap between data analysis and actionable recommendations
 - **AI for Documentation**: Using Gemini to generate Mermaid diagram code demonstrated how AI can accelerate documentation tasks, helping structure complex relationships and generate visual representations of system architecture
-
-**Challenges:**
-- **Model Availability**: Initially tried `gemini-2.0-flash-exp` which wasn't available on free tier, had to switch to `gemini-1.5-flash` initially
-- **Response Parsing**: Gemini sometimes returns JSON wrapped in markdown code blocks, requiring additional parsing logic
-- **Prompt Design**: Balancing specificity (HubSpot AI tools) with flexibility (various customer scenarios) required iteration
-- **Error Handling**: Handling API quota limits and rate limiting gracefully
-- **Structured Output**: Ensuring consistent JSON structure despite AI's natural language tendencies
 
 ### How Did AI Help (or Not Help)?
 
