@@ -258,6 +258,7 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 
 **Limitations and Challenges:**
 - **Missing Business Requirements**: A significant challenge was not knowing the customer's specific business requirements and not being able to conduct a full discovery session/s. This required making assumptions about Breezy's needs, workflows, and priorities, which may not align with their actual requirements
+- **Diagram Generation Accuracy**: Gemini did not generate Mermaid diagram code accurately for the ERD. The relationship nodes and connections required manual adjustment to correctly represent the HubSpot data architecture
 - **Code Review Needed**: Generated code sometimes required review and adjustment to match project requirements
 - **Context Understanding**: Sometimes needed to provide additional context or clarify requirements when AI misunderstood the task
 - **Error Handling**: AI-generated code sometimes lacked comprehensive error handling, requiring manual additions
@@ -285,6 +286,46 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 ![HubSpot Data Architecture ERD](assets/images/SA_assessment_ADVANCED_ERD.png)
 
 *This ERD was created using Google Gemini to generate Mermaid diagram code, which was then rendered into the visual diagram shown above. Gemini helped structure the complex relationships between HubSpot objects including Contacts, Deals (Trials and Hardware Purchases), Line Items, Products, and the Breezy Subscriptions custom object.*
+
+### Why This Architecture?
+
+This data model architecture provides several key benefits for Breezy's business needs:
+
+1. **Separation of Concerns**: 
+   - **Deals** represent sales opportunities and transactions (one-time purchases, trials)
+   - **Subscriptions** represent ongoing service relationships and recurring revenue
+   - This separation allows Breezy to track sales activities separately from subscription management, enabling accurate reporting on both sales performance and recurring revenue
+
+2. **Accurate Revenue Tracking**:
+   - Line items linked to deals provide detailed product-level revenue tracking
+   - Hardware purchases (thermostats) are tracked separately from subscription trials
+   - Enables proper revenue recognition: one-time hardware sales vs. recurring subscription revenue
+
+3. **Flexible Pipeline Management**:
+   - Separate pipelines for hardware purchases and trials allow different sales processes
+   - Hardware Pipeline can track fulfillment stages (Purchased, Shipped, Delivered)
+   - Trial Pipeline can track conversion stages (Active, Converted, Lost)
+   - Each pipeline can have its own stages and workflows optimized for that sales motion
+
+4. **Scalable Product Management**:
+   - Products are centralized and reusable across multiple deals
+   - Line items reference products, enabling consistent pricing and product information
+   - Easy to add new products without modifying deal structures
+
+5. **Complete Customer Journey Tracking**:
+   - Contacts can have multiple deals (hardware purchases and trials)
+   - Provides full visibility into customer lifecycle: purchase → trial → subscription
+
+6. **Reporting and Analytics**:
+   - Can analyze hardware sales separately from subscription conversions
+   - Track trial-to-subscription conversion rates
+   - Calculate MRR/ARR from subscription data
+   - Report on product-level performance through line items
+
+7. **HubSpot Best Practices**:
+   - Uses standard HubSpot objects (Contacts, Deals, Products, Line Items) for native reporting
+   - Custom object (Breezy Subscriptions) extends functionality without breaking HubSpot conventions
+   - Leverages HubSpot's built-in associations and relationship tracking
 
 ### Deal Pipeline Architecture
 
@@ -443,19 +484,29 @@ AI provides: "High likelihood to upgrade (85%) - Customer purchased 2 thermostat
    - Design subscription and revenue data models that support accurate MRR/ARR calculations and forecasting
    - Implement proper revenue recognition tracking aligned with their accounting needs
 
-2. **Error Handling**:
+2. **Native HubSpot Subscription Object**:
+   - Consider migrating from the custom "Breezy Subscriptions" object to HubSpot's native Subscription object
+   - Leverage Commerce Hub features for subscription management, including:
+     - Built-in subscription lifecycle management
+     - Automated billing and payment processing integrations
+     - Native subscription reporting and analytics
+     - Subscription renewal and cancellation workflows
+     - Integration with HubSpot Payments (if applicable)
+   - Evaluate trade-offs: native object provides more features but may require Commerce Hub subscription and have different data structure requirements
+
+3. **Error Handling**:
    - More granular error messages
    - Better validation before API calls
 
-3. **Performance**:
+4. **Performance**:
    - Batch API calls where possible
    - Implement caching for pipeline stages
 
-4. **Testing**:
+5. **Testing**:
    - Unit tests for API endpoints
    - Integration tests for HubSpot API calls
 
-5. **Security**:
+6. **Security**:
    - Input sanitization
    - Rate limiting
 
