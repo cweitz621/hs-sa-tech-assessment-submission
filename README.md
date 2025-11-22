@@ -52,8 +52,14 @@ npm install
 
 #### 4. Configure Environment Variables
 
+Create a `.env` file in the root directory:
+
 ```bash
+# If .env.example exists, copy it:
 cp .env.example .env
+
+# Otherwise, create the file manually:
+touch .env
 ```
 
 Edit `.env` and add your credentials:
