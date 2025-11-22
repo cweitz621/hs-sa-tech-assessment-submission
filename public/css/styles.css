@@ -144,7 +144,7 @@ th, td {
     border-bottom: 1px solid #e0e0e0;
 }
 
-/* Add minimum width to Company column for better spacing */
+/* Add minimum width to Phone column for better spacing */
 th:nth-child(4), td:nth-child(4) {
     min-width: 120px;
     padding-right: 30px;

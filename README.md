@@ -99,7 +99,7 @@ You should see:
 - You would need to add an endpoint to create subscription records using the HubSpot Custom Objects API
 - Example: `POST /crm/v3/objects/[object ID]` (using object ID `2-53381506`)
 
-**For this POC, we demonstrate Option A (workflows)** to show how you can reduce API call volume. In production, choose the approach that best fits your needs, rate limits, and control requirements.
+**For this POC, I demonstrate Option A (workflows)** to show how you can reduce API call volume. In production, choose the approach that best fits your needs, rate limits, and control requirements.
 
 **Steps to Create the Workflow (Option A):**
 
@@ -158,7 +158,7 @@ http://localhost:3001
 
 3. **View Data:**
    - The contacts table displays:
-     - Contact information (name, email, job title, company)
+     - Contact information (name, email, phone)
      - Thermostat purchases (quantity and total amount)
      - Trials (deal name, amount, stage, ID)
      - **Breezy Subscriptions** (status, dates, trial ID) - *These are created by HubSpot workflows when trials convert*
@@ -191,11 +191,10 @@ This proof-of-concept demonstrates an integration between Breezy's smart home pl
 
 ### Key Features
 
-- **Contact Management**: Create and view contacts with job title and company information
+- **Contact Management**: Create and view contacts 
 - **Deal Tracking**: Separate pipelines for hardware purchases (Hardware Pipeline) and trials (Default Pipeline)
 - **Line Item Integration**: Automatic creation of products and line items for thermostats and premium subscriptions
 - **Custom Object Integration**: Read subscription data from HubSpot custom objects
-- **Dynamic Pipeline Loading**: Automatically fetch and display current deal stages from HubSpot
 - **AI Customer Health**: Generate insights with specific HubSpot AI tool recommendations
 - **Error Handling**: User-friendly error messages for common issues (e.g., duplicate emails)
 

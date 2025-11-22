@@ -49,7 +49,7 @@ app.get('/api/contacts', async (req, res) => {
         },
         params: {
           limit: 50,
-          properties: 'firstname,lastname,email,phone,address,jobtitle,company'
+          properties: 'firstname,lastname,email,phone,address'
         }
       }
     );
