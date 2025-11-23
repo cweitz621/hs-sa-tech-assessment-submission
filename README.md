@@ -5,7 +5,7 @@ This is a proof-of-concept application for the HubSpot Solutions Architect Techn
 
 ## Demo Video
 
-📹 **[Watch Demo Video](assets/videos/admin_panel_demo.mp4)**
+https://www.loom.com/share/4fd919c08d354ebb99c7887411b19479
 
 > **Note**: This video provides a quick demonstration of the technical functionality of the admin panel. For the business rationale, use cases, and architectural decisions behind this integration, please refer to the detailed documentation below in this README.
 
