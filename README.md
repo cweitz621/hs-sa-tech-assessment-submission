@@ -3,6 +3,12 @@
 
 This is a proof-of-concept application for the HubSpot Solutions Architect Technical Assessment. It demonstrates how Breezy (a smart home technology company) would integrate their platform with HubSpot to sync customer data, track trials, and manage subscriptions.
 
+## Demo Video
+
+📹 **[Watch Demo Video](assets/videos/admin_panel_demo.mp4)**
+
+> **Note**: This video provides a quick demonstration of the technical functionality of the admin panel. For the business rationale, use cases, and architectural decisions behind this integration, please refer to the detailed documentation below in this README.
+
 ---
 
 ## A. Setup Instructions
@@ -469,6 +475,20 @@ This data model architecture provides several key benefits for Breezy's business
 Instead of: "Customer has active trial"
 AI provides: "High likelihood to upgrade (85%) - Customer purchased 2 thermostats and has active trial. Use HubSpot AI Email Assistant to draft personalized upgrade email highlighting multi-device benefits."
 
+**Note on Proof of Concept**: This AI feature is implemented as a proof of concept with limited data points (deal stages, trial dates, basic contact information). In a production application, the AI platform would have access to significantly more data and information that could enhance insights, including:
+
+- Email engagement metrics (open rates, click-through rates, response rates)
+- Website activity and behavior tracking
+- Support ticket history and resolution times
+- Product usage analytics and feature adoption
+- Social media interactions and sentiment
+- Marketing campaign engagement history
+- Payment history and billing interactions
+- Customer feedback and survey responses
+- Integration usage data (e.g., smart home device connections)
+- Historical communication logs and meeting notes
+
+With this richer dataset, the AI could provide even more nuanced insights, identify subtle patterns, and generate highly personalized recommendations that account for the full customer journey and engagement history.
 
 ---
 
